@@ -1,20 +1,21 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from fractales.base import BaseFractale
+from .base import BaseFractale
 
     
 class SierpinskiTriangle(BaseFractale):
 
     def __init__(self, order: int):
-        super().__init__(order, "Serpinski Triangle")
+        self.order = order
+        super().__init__(f"Serpinski Triangle ({order})")
 
     def _recursive_sierpinski(self, vertices: np.ndarray, depth: int) -> np.ndarray:
         if depth == 0:
             return vertices[np.newaxis, :]
         
-        # Compute the midpoints of the edges
-        midpoints = (vertices + np.roll(vertices, -1, axis=0)) / 2
+        rolled_vertices = np.roll(vertices, -1, axis=0)  # Roll the vertices
+        midpoints = (vertices + rolled_vertices) / 2  # Compute the midpoints
 
         # Split the triangle into three smaller triangles
         t1 = np.array([vertices[0], midpoints[0], midpoints[2]])
@@ -27,7 +28,6 @@ class SierpinskiTriangle(BaseFractale):
             self._recursive_sierpinski(t2, depth - 1),
             self._recursive_sierpinski(t3, depth - 1)
         ])
-
         return triangles
 
     def _generate_points(self) -> np.ndarray:
