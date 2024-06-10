@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 
 class BaseFractale:
 
-    def __init__(self, title: str):
+    def __init__(self, title: str, order: int = 3):
+        self.order = order
         self.title = title
         self.points = self._generate_points()
 
@@ -24,6 +25,6 @@ class BaseFractale:
         
         ax.set_aspect('equal')
         ax.axis('off')
-        ax.set_title(self.title)
+        ax.set_title(f"{self.title} ({self.order})")
         return fig
     
