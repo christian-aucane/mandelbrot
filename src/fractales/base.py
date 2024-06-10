@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 
 class BaseFractale:
 
-    def __init__(self, order: int, title: str):
-        self.order = order
+    def __init__(self, title: str):
         self.title = title
         self.points = self._generate_points()
 
@@ -14,7 +13,7 @@ class BaseFractale:
     
     def _specific_plot(self, ax: plt.Axes):
         raise NotImplementedError("Subclasses must implement this method")
-    
+
     def plot(self, ax: plt.Axes | None=None) -> plt.Figure:
         if ax is None:
             fig, ax = plt.subplots()
@@ -25,5 +24,6 @@ class BaseFractale:
         
         ax.set_aspect('equal')
         ax.axis('off')
-        ax.set_title(f"{self.title} (ordre {self.order})")
+        ax.set_title(self.title)
         return fig
+    
