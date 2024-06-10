@@ -1,22 +1,29 @@
-import argparse
-
 import matplotlib.pyplot as plt
 
 from fractales import SierpinskiTriangle
+from fractales.koch_snowflake import KochSnowflake
 
 
-def sierpinski_triangle(min_order=0, max_order=5):
-    fig, axs = plt.subplots(1, max_order + 1, figsize=(15, 5))
-    for order in range(min_order, max_order + 1):
-        sierpinski = SierpinskiTriangle(order=order)
-        sierpinski.plot(axs[order])
+def plot_all_fractales(fractale_classes, min_order=0, max_order=5):
+    num_fractales = len(fractale_classes)
+    fig, axs = plt.subplots(num_fractales, max_order + 1, figsize=(15, 3 * num_fractales))
+    
+    for i, fractale_class in enumerate(fractale_classes):
+        for order in range(min_order, max_order + 1):
+            fractale = fractale_class(order=order)
+            fractale.plot(axs[i, order])
     plt.tight_layout()
     plt.show()
 
 
 def main():
-    sierpinski_triangle()
+    fractale_classes = [
+        SierpinskiTriangle,
+        KochSnowflake
+    ]
+    # TODO : ajouter un argument pour le min_order et le max_order
 
+    plot_all_fractales(fractale_classes)
 
 if __name__ == "__main__":
     main()
