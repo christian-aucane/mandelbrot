@@ -3,15 +3,18 @@ import matplotlib.pyplot as plt
 from .base import BaseFractale
 
 class Mandelbrot(BaseFractale):
-    def __init__(self, xmin=-2.0, xmax=0.5, ymin=-1.25, ymax=1.25, width=1000, height=1000, max_iter=100, title="Mandelbrot", order=3):
+    def __init__(self, xmin=-2.0, xmax=0.5, ymin=-1.25, ymax=1.25, width=1000, height=1000, max_iter=None, title="Mandelbrot", order=3):
         self.xmin = xmin
         self.xmax = xmax
         self.ymin = ymin
         self.ymax = ymax
         self.width = width
         self.height = height
-        self.max_iter = max_iter
+        self.max_iter = max_iter if max_iter is not None else self.iterations(order)
         super().__init__(title, order)
+
+    def iterations(self, order):
+        return [1, 5, 10, 20, 50, 100][order]
 
     def mandelbrot(self, c):
         z = 0
@@ -31,6 +34,6 @@ class Mandelbrot(BaseFractale):
         ax.imshow(d[2], extent=(self.xmin, self.xmax, self.ymin, self.ymax))
 
 if __name__ == "__main__":
-    mandelbrot = Mandelbrot(-2.0, 0.5, -1.25, 1.25, 1000, 1000, 100)
+    mandelbrot = Mandelbrot(-2.0, 0.5, -1.25, 1.25, 1000, 1000, 5)
     mandelbrot.plot()
     plt.show()

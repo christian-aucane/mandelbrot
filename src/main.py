@@ -21,7 +21,7 @@ def main():
     fractale_classes = [
         SierpinskiTriangle,
         KochSnowflake,
-        Mandelbrot
+        lambda order: Mandelbrot(order=order, max_iter=None)
     ]
     # TODO : ajouter un argument pour le min_order et le max_order
 
