@@ -24,4 +24,14 @@ class Julia:
             Z[mask] = Z[mask] ** 2 + self.c
             self.image[mask] += 1
 
-   
+    # Afficher l'image
+    def show_img(self):
+        plt.imshow(self.image, cmap='hot', extent=(-2, 2, -2, 2))
+        plt.colorbar()
+        plt.title('Ensemble de Julia')
+        plt.show()
+
+if __name__ == "__main__":
+    x = Julia(800, 800, 255)
+    x.iteration_julia()
+    x.show_img()
