@@ -15,7 +15,7 @@ class BaseFractale:
     def _specific_plot(self, ax: plt.Axes):
         raise NotImplementedError("Subclasses must implement this method")
 
-    def plot(self, ax: plt.Axes | None=None) -> plt.Figure:
+    def plot(self, ax: plt.Axes | None = None, title: bool = True) -> plt.Figure:
         if ax is None:
             fig, ax = plt.subplots()
         else:
@@ -25,6 +25,7 @@ class BaseFractale:
         
         ax.set_aspect('equal')
         ax.axis('off')
-        ax.set_title(f"{self.title} ({self.order})")
+        if title:
+            ax.set_title(f"{self.title} ({self.order})")
         return fig
     
