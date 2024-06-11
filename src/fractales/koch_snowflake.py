@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 
 from .base import BaseFractale
 
@@ -60,14 +61,22 @@ class KochSnowflake(BaseFractale):
         
         return points
     
-    def _specific_plot(self, ax: plt.Axes):
+    def _specific_matplotlib_plot(self, ax: plt.Axes):
         # Use Polygon to create the shape
         poly = plt.Polygon(self.points, closed=True, edgecolor='blue', fill=None)
         ax.add_patch(poly)
         ax.set_xlim(-0.5, 1.5)
         ax.set_ylim(-0.5, 1.5)
 
+    def _specific_plotly_plot(self, fig: go.Figure):
+        x  = self.points[:, 0]
+        y = self.points[:, 1]
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', line=dict(color='black')))
+        
+        # Mise à jour du layout de la figure
+        fig.update_layout(width=800, height=800)
+
 if __name__ == "__main__":
     koch = KochSnowflake(3)
-    koch.plot()
+    koch.plot_matplotlib()
     plt.show()
