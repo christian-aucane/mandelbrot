@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 
 from .base import BaseFractale
 
@@ -36,14 +37,30 @@ class SierpinskiTriangle(BaseFractale):
         triangles = self._recursive_sierpinski(vertices, self.order)
         return triangles
 
-    def _specific_plot(self, ax: plt.Axes):
+    def _specific_matplotlib_plot(self, ax: plt.Axes):
         for poly in self.points:
             # Add the polygon to the plot
             polygon = plt.Polygon(poly, edgecolor='black', fill=True)
             ax.add_patch(polygon)
+
+    def _specific_plotly_plot(self, fig: go.Figure):
+        for poly in self.points:
+            # Ajouter le polygone au tracé
+            fig.add_trace(go.Scatter(
+                x=poly[:, 0],
+                y=poly[:, 1],
+                mode='lines',
+                fill='toself',
+                line=dict(color='black')
+            ))
+
+        # TODO : voir pourquoi il manque une ligne dans le tracé
+
+        # Mise à jour du layout de la figure
+        fig.update_layout(width=800, height=800)
         
 
 if __name__ == "__main__":
     serpinski_triangle = SierpinskiTriangle(5)
-    serpinski_triangle.plot()
+    serpinski_triangle.plot_matplotlib()
     plt.show()
