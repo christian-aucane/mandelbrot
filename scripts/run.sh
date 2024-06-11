@@ -6,14 +6,11 @@ if [ -d "venv" ]; then
     if [[ "$OS" == "Windows_NT" ]]; then
         # Activate virtual environment for Windows
         source venv/Scripts/activate
-        # Run the application with python
-        python src/main.py
     else
         # Activate virtual environment for Unix-based systems (Linux, macOS)
         source venv/bin/activate
-        # Run the application with python3
-        python3 src/main.py
     fi
+    streamlit run src/streamlit_app.py
 else
     echo "Virtual environment not found. Please run install.sh before running this script."
     exit 1
