@@ -7,8 +7,7 @@ from .base import BaseFractale
 class SierpinskiTriangle(BaseFractale):
 
     def __init__(self, order: int):
-        self.order = order
-        super().__init__(f"Serpinski Triangle ({order})")
+        super().__init__(title=f"Serpinski Triangle", order=order)
 
     def _recursive_sierpinski(self, vertices: np.ndarray, depth: int) -> np.ndarray:
         if depth == 0:
