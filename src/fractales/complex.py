@@ -98,21 +98,7 @@ class ComplexFractale(BaseFractale):
 
     @classmethod
     def julia(cls, constant: complex, max_iter: int = 20, *args, **kwargs):
-        """
-        Create the Julia Set
-
-        Parameters
-        ----------
-        constant : complex
-            The constant of the Julia Set
-        max_iter : int
-            The maximum number of iterations
-
-        Returns
-        ---------
-        instance of ComplexFractale
-            The Julia Set
-        """
+        # TODO : debugger la fonction
         def compute_z(z, c):
 
             new_z = z ** 2 + constant
