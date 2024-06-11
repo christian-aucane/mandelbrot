@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from .base import BaseFractale
 
 class Mandelbrot(BaseFractale):
-    def __init__(self, xmin=-2.0, xmax=0.5, ymin=-1.25, ymax=1.25, width=1000, height=1000, max_iter=None, title="Mandelbrot", order=3):
+    def __init__(self, xmin=-2.0, xmax=0.5, ymin=-1.25, ymax=1.25, width=720, height=480, max_iter=None, title="Mandelbrot", order=3):
         self.xmin = xmin
         self.xmax = xmax
         self.ymin = ymin
