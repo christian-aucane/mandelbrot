@@ -1,8 +1,9 @@
 import matplotlib.pyplot as plt
 
 from fractales import SierpinskiTriangle
+from fractales.julia import Julia
 from fractales.koch_snowflake import KochSnowflake
-from fractales.multibrot import Multibrot
+from streamlit_app import FractalesApp
 
 
 def plot_all_fractales(fractale_classes, min_order=0, max_order=5):
@@ -13,21 +14,21 @@ def plot_all_fractales(fractale_classes, min_order=0, max_order=5):
         for order in range(min_order, max_order + 1):
             ax = fig.add_subplot(num_fractales, max_order + 1, i * (max_order + 1) + order + 1)
             fractale = fractale_class(order=order)
-            fractale.plot(ax)
+            fractale.plot_matplotlib(ax)
     plt.subplots_adjust(hspace=0.5)
     plt.show()
-
 
 def main():
     fractale_classes = [
         SierpinskiTriangle,
         KochSnowflake,
-        Multibrot
+        Julia
     ]
     # TODO : ajouter un argument pour le min_order et le max_order
-
+    
     plot_all_fractales(fractale_classes)
 
 if __name__ == "__main__":
-    main()
+    app = FractalesApp()
+    app.run()
     
