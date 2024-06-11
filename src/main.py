@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 
 from fractales import SierpinskiTriangle
 from fractales.koch_snowflake import KochSnowflake
-from fractales.mandelbrot import Mandelbrot
 from fractales.multibrot import Multibrot
 
 
@@ -23,9 +22,7 @@ def main():
     fractale_classes = [
         SierpinskiTriangle,
         KochSnowflake,
-        lambda order: Mandelbrot(order=order, max_iter=None),
-        lambda order: Multibrot(power=order+2, order=order, max_iter=None),
-        lambda order: Multibrot(power=order+8, order=order, max_iter=None)
+        Multibrot
     ]
     # TODO : ajouter un argument pour le min_order et le max_order
 
