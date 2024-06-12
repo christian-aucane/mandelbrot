@@ -16,16 +16,17 @@ class BaseFractale:
     def _specific_matplotlib_plot(self, ax: plt.Axes):
         raise NotImplementedError("Subclasses must implement this method")
 
-    def plot_matplotlib(self, ax: plt.Axes | None = None, title: bool = True) -> plt.Figure:
+    def plot_matplotlib(self, ax: plt.Axes | None = None, title: bool = True, axis=False) -> plt.Figure:
         if ax is None:
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(8, 8))
         else:
             fig = ax.figure
 
         self._specific_matplotlib_plot(ax)
         
         ax.set_aspect('equal')
-        ax.axis('off')
+        if not axis:
+            ax.axis('off')
         if title:
             ax.set_title(f"{self.title} ({self.order})")
         return fig
