@@ -2,9 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 
-from .base import BaseFractale
+try:
+    from .base import BaseFractale
+except ImportError:
+    from base import BaseFractale
 
-    
 class SierpinskiTriangle(BaseFractale):
 
     def __init__(self, order: int):
@@ -32,16 +34,22 @@ class SierpinskiTriangle(BaseFractale):
 
     def _generate_points(self) -> np.ndarray:
         # Define the vertices of the triangle
-        vertices = np.array([[0, 0], [1, 0], [0.5, np.sqrt(3) / 2]])
+        vertices = np.array([[-0.5, 0], [0.5, 0], [0.0, self.triangle_height()]])
 
         triangles = self._recursive_sierpinski(vertices, self.order)
         return triangles
+    
+    def triangle_height(self) -> float:
+        return np.sqrt(3) / 2
 
     def _specific_matplotlib_plot(self, ax: plt.Axes):
         for poly in self.points:
             # Add the polygon to the plot
             polygon = plt.Polygon(poly, edgecolor='black', fill=True)
             ax.add_patch(polygon)
+
+        ax.set_xlim(-0.5, 0.5)
+        ax.set_ylim(0, self.triangle_height())
 
     def _specific_plotly_plot(self, fig: go.Figure):
         for poly in self.points:
