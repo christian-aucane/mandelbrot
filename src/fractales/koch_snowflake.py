@@ -2,8 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 
-from .base import BaseFractale
-
+try:
+    from .base import BaseFractale
+except ImportError:
+    from base import BaseFractale
     
 class KochSnowflake(BaseFractale):
     def __init__(self, order: int):
@@ -52,7 +54,7 @@ class KochSnowflake(BaseFractale):
         
     def _generate_points(self) -> np.ndarray:
         # Define the vertices of the triangle
-        vertices = np.array([[0, 0], [1, 0], [0.5, np.sqrt(3) / 2], [0, 0]])
+        vertices = np.array([[-0.5, 0], [0.5, 0], [0.0, self.triangle_height()]])
         points = np.vstack([
             self._recursive_generate_segments(segment=[vertices[0], vertices[1]], depth=self.order),
             self._recursive_generate_segments(segment=[vertices[1], vertices[2]], depth=self.order),
@@ -60,13 +62,17 @@ class KochSnowflake(BaseFractale):
         ])
         
         return points
+
+    def triangle_height(self) -> float:
+        return np.sqrt(3) / 2
     
     def _specific_matplotlib_plot(self, ax: plt.Axes):
         # Use Polygon to create the shape
         poly = plt.Polygon(self.points, closed=True, edgecolor='blue', fill=None)
         ax.add_patch(poly)
-        ax.set_xlim(-0.5, 1.5)
-        ax.set_ylim(-0.5, 1.5)
+        ax.set_xlim(-0.5, 0.5)
+        height = self.triangle_height() 
+        ax.set_ylim(-height / 3, height)
 
     def _specific_plotly_plot(self, fig: go.Figure):
         x  = self.points[:, 0]

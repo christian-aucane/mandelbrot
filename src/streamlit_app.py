@@ -2,38 +2,49 @@ import streamlit as st
 
 from fractales.complex import ComplexFractale
 from fractales.koch_snowflake import KochSnowflake
+from fractales.pytagoras_tree import PythagorasTree
 from fractales.sierpinski import SierpinskiTriangle
 
 
 class FractalesApp:
     # TODO : ajouter formules et petit texte dans les pages ?
+    # TODO ajouter animation
     def __init__(self):
         self.pages = {
             "Sierpinski Triangle": self.sierpinski_triangle,
             "Koch Snowflake": self.koch_snowflake,
+            "Pytagoras Tree": self.pytagoras_tree,
             "Multibrot Set": self.multibrot_set,
             "Julia Set": self.julia_set,
-            "Burning Ship": self.burning_ship
+            "Burning Ship": self.burning_ship,
         }
 
-    def sierpinski_triangle(self, librairy="matplotlib"):
+
+    def sierpinski_triangle(self, librairy="matplotlib", animated=False):
         st.title("Sierpinski Triangle")
 
         st.sidebar.title("Parameters")
-        order = st.sidebar.slider("Order", 0, 8, 0)
+        order = st.sidebar.slider("Order", 0, 15, 0)
 
         self.plot_fractal(SierpinskiTriangle(order=order), librairy=librairy)
 
         # Ajouter références vers le code source
 
-    def koch_snowflake(self, librairy="matplotlib"):
+    def koch_snowflake(self, librairy="matplotlib", animated=False):
         st.title("Koch Snowflake")
         st.sidebar.title("Parameters")
-        order = st.sidebar.slider("Order", 0, 8, 0)
+        order = st.sidebar.slider("Order", 0, 15, 0)
 
         self.plot_fractal(KochSnowflake(order=order), librairy=librairy)
         
-        # Ajouter références vers le code source
+
+    def pytagoras_tree(self, librairy="matplotlib", animated=False):
+        st.title("Pythagoras Tree")
+        st.sidebar.title("Parameters")
+        order = st.sidebar.slider("Order", 0, 15, 0)
+        
+        tree = PythagorasTree(order=order)
+        self.plot_fractal(tree, librairy=librairy)
 
     def complex_factory_kwargs(self):
         return {
@@ -45,7 +56,7 @@ class FractalesApp:
             "y_max": st.sidebar.slider("y_max", -2, 2, 1)
         }
 
-    def multibrot_set(self, librairy="matplotlib"):
+    def multibrot_set(self, librairy="matplotlib", animated=False):
         st.title("Multibrot Set")
         st.sidebar.title("Parameters")
 
@@ -57,7 +68,7 @@ class FractalesApp:
         self.plot_fractal(multibrot, librairy=librairy)
         # Ajouter références vers le code source
 
-    def julia_set(self, librairy="matplotlib"):
+    def julia_set(self, librairy="matplotlib", animated=False):
         st.title("Julia Set")
 
         max_iter = st.sidebar.slider("Max Iterations", 1, 1000, 100)
@@ -70,7 +81,7 @@ class FractalesApp:
         julia = ComplexFractale.julia(constant=complex(real_part, imaginary_part), max_iter=max_iter, **julia_kwargs)
         self.plot_fractal(julia, librairy=librairy)
 
-    def burning_ship(self, librairy="matplotlib"):
+    def burning_ship(self, librairy="matplotlib", animated=False):
         st.title("Burning Ship")
         max_iter = st.sidebar.slider("Max Iterations", 1, 1000, 100)
         exponent = st.sidebar.slider("Exponent", 1, 10, 2)
@@ -81,9 +92,9 @@ class FractalesApp:
 
         self.plot_fractal(burning_ship, librairy=librairy)
 
-    def plot_fractal(self, fractal, librairy="matplotlib"):
+    def plot_fractal(self, fractal, librairy="matplotlib", animated=False):
         if librairy == "matplotlib":
-            fig = fractal.plot_matplotlib(title=False)
+            fig = fractal.plot_matplotlib(title=False, axis=True)
             st.pyplot(fig)
         elif librairy == "plotly":
             fig = fractal.plot_plotly(title=False)
@@ -94,10 +105,11 @@ class FractalesApp:
 
         # TODO : ajouter choix de la palete de couleurs ?
         library = st.sidebar.selectbox("Plotting library", ("matplotlib", "plotly"))
-        
+        animated = st.sidebar.checkbox("Animated", value=False)
         page = self.pages[str(nav_option)]
         
-        page(librairy=str(library))
+        page(librairy=str(library), animated=animated)
+
 
 if __name__ == "__main__":
     app = FractalesApp()
